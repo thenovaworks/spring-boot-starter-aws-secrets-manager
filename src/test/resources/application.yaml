@@ -14,5 +14,5 @@ spring:
       secrets-manager:
         # region: ap-southeast-1
         provider-type: profile
-        profile: dev
+        profile: devstack
 

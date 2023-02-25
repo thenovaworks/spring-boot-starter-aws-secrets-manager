@@ -1,4 +1,4 @@
-package io.symplesims.spring.aws.secretsmanager.autoconfigure;
+package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.type.TypeReference;

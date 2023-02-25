@@ -1,6 +1,6 @@
-package io.symplesims.spring.aws.secretsmanager.samples;
+package io.github.thenovaworks.samples.secretsmanager.samples;
 
-import io.symplesims.spring.aws.secretsmanager.autoconfigure.SecretsValue;
+import io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure.SecretsValue;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

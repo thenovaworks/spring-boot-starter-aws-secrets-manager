@@ -1,6 +1,6 @@
-package io.symplesims.spring.aws.secretsmanager;
+package io.github.thenovaworks.samples.secretsmanager;
 
-import io.symplesims.spring.aws.secretsmanager.samples.SampleHelloBean;
+import io.github.thenovaworks.samples.secretsmanager.samples.SampleHelloBean;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package io.symplesims.spring.aws.secretsmanager.autoconfigure;
+package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
 
 import java.lang.annotation.*;
 

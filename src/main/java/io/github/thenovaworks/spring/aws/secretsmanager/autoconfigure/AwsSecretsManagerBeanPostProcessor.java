@@ -1,4 +1,4 @@
-package io.symplesims.spring.aws.secretsmanager.autoconfigure;
+package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

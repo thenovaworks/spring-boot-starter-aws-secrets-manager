@@ -33,7 +33,7 @@ AWS Secrets Manager 를 액세스 하려면 Spring Boot 애플리케이션이 �
         <dependency>
           <groupId>io.github.thenovaworks</groupId>
           <artifactId>spring-boot-starter-aws-secrets-manager</artifactId>
-          <version>0.9.1</version>
+          <version>0.9.5</version>
         </dependency>
     </dependencies>
 ```
@@ -42,7 +42,7 @@ AWS Secrets Manager 를 액세스 하려면 Spring Boot 애플리케이션이 �
 
 ```
 dependencies {
-	implementation 'io.github.thenovaworks:spring-boot-starter-aws-secrets-manager:0.9.1'
+	implementation 'io.github.thenovaworks:spring-boot-starter-aws-secrets-manager:0.9.5'
 }
 ```
 
@@ -100,7 +100,7 @@ spring:
 
 아래 `SampleHelloBean` 클래스와 같이  쉽게 사용할 수 있습니다. 
 ```
-import io.symplesims.spring.aws.secretsmanager.autoconfigure.SecretsValue;
+import io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure.SecretsValue;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

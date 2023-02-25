@@ -1,1 +1,1 @@
-io.symplesims.spring.aws.secretsmanager.autoconfigure.AwsSecretsManagerAutoConfiguration
+io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure.AwsSecretsManagerAutoConfiguration

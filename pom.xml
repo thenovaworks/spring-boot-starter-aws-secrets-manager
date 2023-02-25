@@ -8,9 +8,9 @@
 		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>io.symplesims.spring.aws</groupId>
+	<groupId>io.github.thenovaworks</groupId>
 	<artifactId>spring-boot-starter-aws-secrets-manager</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.9.1</version>
 	<name>spring-boot-starter-aws-secrets-manager</name>
 	<description>spring-boot-starter-aws-secrets-manager</description>
 	<properties>

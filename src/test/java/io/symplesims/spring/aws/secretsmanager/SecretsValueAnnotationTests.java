@@ -1,7 +1,6 @@
 package io.symplesims.spring.aws.secretsmanager;
 
-import io.symplesims.spring.aws.secretsmanager.ripebeans.SampleHelloBean;
-import io.symplesims.spring.aws.secretsmanager.ripebeans.SampleWorldBean;
+import io.symplesims.spring.aws.secretsmanager.samples.SampleHelloBean;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +18,9 @@ class SecretsValueAnnotationTests {
     @Autowired
     private SampleHelloBean sampleHelloBean;
 
-    @Autowired
-    private SampleWorldBean sampleWorldBean;
-
     @Test
     void contextLoads() {
         assertNotNull(sampleHelloBean);
-        assertNotNull(sampleWorldBean);
     }
 
     @Test
@@ -34,30 +29,13 @@ class SecretsValueAnnotationTests {
         Assertions.assertEquals("ap-northeast-2", region);
         System.out.println("region: " + region);
 
-        Map<String, String> secretInfo = sampleHelloBean.getSecretInfo();
+        Map<String, String> secretInfo = sampleHelloBean.getOauthInfo();
         assertNotNull(secretInfo);
         System.out.println("alertnowRdsInfo: " + secretInfo);
 
-        Map<String, String> secretData = sampleHelloBean.getSecretData();
+        Map<String, String> secretData = sampleHelloBean.getMysqlInfo();
         assertNotNull(secretData);
         System.out.println("spiderRdsInfo: " + secretData);
-
-    }
-
-    @Test
-    public void test_world() {
-        String region = sampleWorldBean.getAwsRegion();
-        Assertions.assertEquals("us-east-1", region);
-        System.out.println("region: " + region);
-
-        Map<String, String> secretInfo = sampleWorldBean.getSecretInfo();
-        assertNotNull(secretInfo);
-        System.out.println("secretInfo: " + secretInfo);
-
-        Map<String, String> secretData = sampleWorldBean.getSecretData();
-        assertNotNull(secretData);
-        System.out.println("secretData: " + secretData);
     }
 
 }
-

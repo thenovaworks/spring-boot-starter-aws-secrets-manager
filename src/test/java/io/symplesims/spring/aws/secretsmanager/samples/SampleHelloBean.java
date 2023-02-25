@@ -1,4 +1,4 @@
-package io.symplesims.spring.aws.secretsmanager.ripebeans;
+package io.symplesims.spring.aws.secretsmanager.samples;
 
 import io.symplesims.spring.aws.secretsmanager.autoconfigure.SecretsValue;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,21 +12,21 @@ public class SampleHelloBean {
     @Value("${spring.cloud.aws.ssm.region:ap-northeast-2}")
     private String awsRegion;
 
-    @SecretsValue("dev/aurora/alertnow")
-    private Map<String, String> secretInfo;
+    @SecretsValue("dev/simplydemo/oauth")
+    private Map<String, String> oauthInfo;
 
-    @SecretsValue(value = "SPIDER/DEV/RDS/COST", fullname = true)
-    private Map<String, String> secretData;
+    @SecretsValue(value = "dev/simplydemo/mysql", fullname = true)
+    private Map<String, String> mysqlInfo;
 
     public String getAwsRegion() {
         return awsRegion;
     }
 
-    public Map<String, String> getSecretInfo() {
-        return secretInfo;
+    public Map<String, String> getOauthInfo() {
+        return oauthInfo;
     }
 
-    public Map<String, String> getSecretData() {
-        return secretData;
+    public Map<String, String> getMysqlInfo() {
+        return mysqlInfo;
     }
 }

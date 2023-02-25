@@ -3,8 +3,7 @@ spring:
     aws:
       secrets-manager:
         packages:
-          - aaa.aaa.aaa
-          - bbb.bbb.bbb
+          - io.symplesims.spring.aws.secretsmanager.ripebeans
 
 ---
 spring:
@@ -14,5 +13,5 @@ spring:
   cloud:
     aws:
       secrets-manager:
-        profile: opsdev-sts
+        profile: dev
 

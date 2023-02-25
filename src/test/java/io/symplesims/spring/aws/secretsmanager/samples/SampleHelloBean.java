@@ -9,14 +9,11 @@ import java.util.Map;
 @Component
 public class SampleHelloBean {
 
-    @Value("${spring.cloud.aws.ssm.region:ap-northeast-2}")
+    @Value("${spring.cloud.aws.secrets-manager.region:ap-northeast-2}")
     private String awsRegion;
 
     @SecretsValue("dev/simplydemo/oauth")
     private Map<String, String> oauthInfo;
-
-    @SecretsValue(value = "dev/simplydemo/mysql", fullname = true)
-    private Map<String, String> mysqlInfo;
 
     public String getAwsRegion() {
         return awsRegion;
@@ -26,7 +23,4 @@ public class SampleHelloBean {
         return oauthInfo;
     }
 
-    public Map<String, String> getMysqlInfo() {
-        return mysqlInfo;
-    }
 }

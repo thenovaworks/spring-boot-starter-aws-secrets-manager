@@ -78,7 +78,7 @@ AWS Profile 에 관련된 설정은 AWS [Configuration and credential file setti
 spring:
   cloud:
     aws:
-      ssm:
+      secrets-manager:
         provider-type: profile
         profile: <your_profile>
 ```
@@ -90,7 +90,7 @@ spring:
 spring:
   cloud:
     aws:
-      ssm:
+      secrets-manager:
         provider-type: environment
 ```
 

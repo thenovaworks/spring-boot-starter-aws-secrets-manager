@@ -1,9 +1,8 @@
+debug: false
+
 spring:
-  cloud:
-    aws:
-      secrets-manager:
-        packages:
-          - io.symplesims.spring.aws.secretsmanager.ripebeans
+  application:
+    name: my-spring-app
 
 ---
 spring:
@@ -13,5 +12,7 @@ spring:
   cloud:
     aws:
       secrets-manager:
+        # region: ap-southeast-1
+        provider-type: profile
         profile: dev
 

@@ -1,6 +1,6 @@
 package io.github.thenovaworks.samples.secretsmanager;
 
-import io.github.thenovaworks.samples.secretsmanager.samples.SampleHelloBean;
+import io.github.thenovaworks.samples.secretsmanager.mybean.SampleHelloBean;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,15 @@ class SecretsValueAnnotationTests {
         Map<String, String> info = sampleHelloBean.getOauthInfo();
         assertNotNull(info);
         log.info("oauthInfo: {}", info);
+
+        String username = sampleHelloBean.getUsername();
+        log.info("username: {}", username);
+
+        String password = sampleHelloBean.getPassword();
+        log.info("password: {}", password);
+
+        String clientId = sampleHelloBean.getClientId();
+        log.info("clientId: {}", clientId);
     }
 
 }

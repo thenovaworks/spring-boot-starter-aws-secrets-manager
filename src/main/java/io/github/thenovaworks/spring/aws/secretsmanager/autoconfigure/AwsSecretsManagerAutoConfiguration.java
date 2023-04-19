@@ -1,5 +1,8 @@
 package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
 
+import io.github.thenovaworks.spring.aws.secretsmanager.AwsSecretsManagerProperties;
+import io.github.thenovaworks.spring.aws.secretsmanager.AwsSecretsManagerSupport;
+import io.github.thenovaworks.spring.aws.secretsmanager.ProviderType;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -39,8 +42,13 @@ public class AwsSecretsManagerAutoConfiguration {
     }
 
     @Bean
+    AwsSecretsManagerSupport awsSecretsManagerSupport() {
+        return new AwsSecretsManagerSupport(buildClient());
+    }
+
+    @Bean
     AwsSecretsManagerValueResolver autowireCandidateResolver() {
-        return new AwsSecretsManagerValueResolver(buildClient());
+        return new AwsSecretsManagerValueResolver(awsSecretsManagerSupport());
     }
 
     @Bean

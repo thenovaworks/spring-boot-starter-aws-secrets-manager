@@ -100,7 +100,7 @@ spring:
 
 아래 `SampleHelloBean` 클래스와 같이  쉽게 사용할 수 있습니다. 
 ```
-import io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure.SecretsValue;
+import io.github.thenovaworks.spring.aws.secretsmanager.SecretsValue;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

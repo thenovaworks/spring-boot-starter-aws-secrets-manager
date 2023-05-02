@@ -9,7 +9,7 @@ spring:
   config:
     activate:
       on-profile: local
-    import: "secretsmanager:dev/aurora/apple;dev/applogs/oauth"
+    import: "secretsmanager:dev/simplydemo/apple;dev/simplydemo/oauth"
   cloud:
     aws:
       secrets-manager:
@@ -17,6 +17,6 @@ spring:
         provider-type: profile
         profile: opsdev-sts
   datasource:
-    username: ${dev/aurora/apple.username}
-    password: ${dev/aurora/apple.password}
+    username: ${dev/simplydemo/apple.username}
+    password: ${dev/simplydemo/apple.password}
 

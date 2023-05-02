@@ -18,7 +18,7 @@ spring-boot-starter-aws-secrets-manager 프로젝트는 AWS Secrets Manager 를 
     private Map<String, String> oauthInfo;
 ```
 
-이 결과로, Bean 클래스의 username 속성은 dev/simplydemo/oauth 의 보안 암호는 oauthInfo Map 객체에 바인딩 됩니다.
+이 결과로, Bean 클래스의 username 속성은 `dev/simplydemo/oauth` 의 보안 암호는 oauthInfo Map 객체에 바인딩 됩니다.
 
 
 
@@ -89,9 +89,16 @@ spring:
       secrets-manager:
         provider-type: profile
         profile: <your_profile>
+  config:
+    import: "secretsmanager:dev/simplydemo/apple"        
+```
+profile 인증 방식은 아래와 같이 `AWS_PROFILE` 환경 변수를 설정 하여야 합니다.
+```
+$ export AWS_PROFILE=simplydemo
 ```
 
- 
+<br>
+
 - AWS Environments 환경 변수를 참조하여 보안 문자열을 액세스 합니다. 
 
 ```
@@ -100,6 +107,8 @@ spring:
     aws:
       secrets-manager:
         provider-type: environment
+  config:
+    import: "secretsmanager:dev/simplydemo/apple"
 ```
 
 environment 인증 방식은 아래와 같이 `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` 와 `AWS_SESSION_TOKEN` 환경 변수를 설정 하여야 합니다. 

@@ -11,7 +11,7 @@ public abstract class AbstractSecretsTests {
 
 
     protected AwsSecretsManagerSupport getAwsSecretsManagerSupport() {
-        return getAwsSecretsManagerSupport("opsdev-sts");
+        return getAwsSecretsManagerSupport("simplydemo");
     }
 
     protected AwsSecretsManagerSupport getAwsSecretsManagerSupport(final String profile) {

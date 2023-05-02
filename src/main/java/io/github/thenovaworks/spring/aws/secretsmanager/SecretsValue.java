@@ -1,4 +1,4 @@
-package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
+package io.github.thenovaworks.spring.aws.secretsmanager;
 
 import java.lang.annotation.*;
 

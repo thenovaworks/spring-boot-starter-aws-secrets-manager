@@ -1,5 +1,7 @@
 package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
 
+import io.github.thenovaworks.spring.aws.secretsmanager.AwsSecretsManagerProperties;
+import io.github.thenovaworks.spring.aws.secretsmanager.SecretsValue;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

@@ -9,10 +9,14 @@ spring:
   config:
     activate:
       on-profile: local
+    import: "secretsmanager:dev/simplydemo/apple;dev/simplydemo/oauth"
   cloud:
     aws:
       secrets-manager:
-        # region: ap-southeast-1
+        region: ap-northeast-2
         provider-type: profile
-        profile: devstack
+        profile: opsdev-sts
+  datasource:
+    username: ${dev/simplydemo/apple.username}
+    password: ${dev/simplydemo/apple.password}
 

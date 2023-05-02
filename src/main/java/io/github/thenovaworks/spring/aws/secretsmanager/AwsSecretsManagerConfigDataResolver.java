@@ -14,17 +14,12 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClientBuilder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class AwsSecretsManagerConfigDataResolver
         implements ConfigDataLocationResolver<AwsSecretsManagerConfigDataResource> {
 
-    public static final String PREFIX = "secretsmanager:";
-
-    private String prefix = PREFIX;
+    private String prefix = AwsSecretsManagerProperties.SECRET_MANAGER_IDENTITY + ":";
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
@@ -79,11 +74,11 @@ public class AwsSecretsManagerConfigDataResolver
         }
     }
 
-    protected List<String> getContexts(String keys) {
+    protected Set<String> getContexts(String keys) {
         if (StringUtils.hasLength(keys)) {
-            return Arrays.asList(keys.split(";"));
+            return new HashSet<String>(Arrays.asList(keys.split(";")));
         }
-        return Collections.emptyList();
+        return new HashSet<String>();
     }
 
     public List<AwsSecretsManagerConfigDataResource> resolveProfileSpecific(ConfigDataLocationResolverContext context, ConfigDataLocation location, Profiles profiles) throws ConfigDataLocationNotFoundException {
@@ -93,18 +88,11 @@ public class AwsSecretsManagerConfigDataResolver
         final AwsSecretsManagerSupport support = secretsManagerSupport(context.getBootstrapContext());
         registerBean(context, AwsSecretsManagerSupport.class, support);
 
-        List<AwsSecretsManagerConfigDataResource> locations = new ArrayList<>();
-        List<String> contexts = getContexts(location.getNonPrefixedValue(PREFIX));
-
+        final List<AwsSecretsManagerConfigDataResource> locations = new ArrayList<>();
+        final Set<String> contexts = getContexts(location.getNonPrefixedValue(getPrefix()));
         for (final String secretName : contexts) {
             support.getMap(secretName);
-
-//  Cached-Source
-//            System.out.println(secretName);
-//            Object ooo = support.getMap(secretName);
-//            System.out.println("--------------");
-//            System.out.println(ooo);
-//            System.out.println("--------------");
+            // System.out.println("----- " + secretName);
             SecretsManagerPropertySource propertySource = new SecretsManagerPropertySource(secretName, support);
             AwsSecretsManagerConfigDataResource resource = new AwsSecretsManagerConfigDataResource(secretName, propertySource);
             locations.add(resource);

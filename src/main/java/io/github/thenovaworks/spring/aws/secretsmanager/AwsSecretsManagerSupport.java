@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRespon
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AwsSecretsManagerSupport {
@@ -92,19 +93,13 @@ public class AwsSecretsManagerSupport {
         return getValueMap(secretName, fullname, cacheKey);
     }
 
-    private String[] split(final String name) {
-        if (name == null || !name.contains(".")) {
-            throw new IllegalArgumentException("The name attribute must be hava a  delimiter with `.`. Ex) `my-secret-name.username`");
+    public String getValue(final String secretName, final String name) {
+        if (!name.contains(secretName)) {
+            return null;
         }
-        return name.split("\\.");
-    }
-
-    public String getValue(final String name) {
-        String[] var = split(name);
-        final String secretName = var[0];
-        final String keyName = var[1];
+        final String propertyName = name.substring(secretName.length() + 1);
         final Map<String, String> map = getMap(secretName);
-        return map.get(keyName);
+        return map.get(propertyName);
     }
 
     public String[] keys(final String secretName) {

@@ -17,6 +17,6 @@ spring:
         provider-type: profile
         profile: opsdev-sts
   datasource:
-    username: ${username}
-    password: ${password}
+    username: ${dev/aurora/apple.username}
+    password: ${dev/aurora/apple.password}
 

@@ -33,7 +33,7 @@ AWS Secrets Manager 를 액세스 하려면 Spring Boot 애플리케이션이 �
         <dependency>
           <groupId>io.github.thenovaworks</groupId>
           <artifactId>spring-boot-starter-aws-secrets-manager</artifactId>
-          <version>0.9.5</version>
+          <version>1.0.0</version>
         </dependency>
     </dependencies>
 ```
@@ -42,7 +42,7 @@ AWS Secrets Manager 를 액세스 하려면 Spring Boot 애플리케이션이 �
 
 ```
 dependencies {
-	implementation 'io.github.thenovaworks:spring-boot-starter-aws-secrets-manager:0.9.5'
+	implementation 'io.github.thenovaworks:spring-boot-starter-aws-secrets-manager:1.0.0'
 }
 ```
 
@@ -65,8 +65,16 @@ spring:
   cloud:
     aws:
       secrets-manager:
-        provider-type: default        
+        provider-type: default
+  config:
+    import: "secretsmanager:dev/simplydemo/apple;dev/simplydemo/oauth"        
 ```
+
+`spring.config.import` 속성은 참조할 secret name 을 정의 합니다.  
+secretsmanager 를 식별 하기 위한 접두어로 'secretsmanager:' 로 시작하며, 하나 이상일 경우 ';' 캐릭터를 구분자로 사용 합니다.   
+위 예제는 'dev/simplydemo/apple' 와 'dev/simplydemo/oauth' secret name 을 참조 합니다. 
+
+<br>
 
 #### For Local Test
 
@@ -94,13 +102,24 @@ spring:
         provider-type: environment
 ```
 
+environment 인증 방식은 아래와 같이 `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` 와 `AWS_SESSION_TOKEN` 환경 변수를 설정 하여야 합니다. 
 
+```
+$ export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+$ export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+$ export AWS_SESSION_TOKEN=AQoDYXdzEJr...<remainder of security token>
+```
+[guide_credentials_environment](https://docs.aws.amazon.com/ko_kr/sdk-for-php/v3/developer-guide/guide_credentials_environment.html) 참조 
 
-### Spring Bean
+<br>
 
-아래 `SampleHelloBean` 클래스와 같이  쉽게 사용할 수 있습니다. 
+### Spring Bean 에서의 참조
+Spring Bean 컴포넌트 내에서 secrets manager 의 secret name 를 참조하는 예제 입니다.   
+
+`SampleHelloBean` Spring Bean 컴포넌트를 정의하여 `@SecretsValue` 또는 `@Value` 어노테이션으로 쉽게 참조 할 수 있습니다.  
 ```
 import io.github.thenovaworks.spring.aws.secretsmanager.SecretsValue;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -111,10 +130,26 @@ public class SampleHelloBean {
     @SecretsValue("dev/simplydemo/oauth")
     private Map<String, String> oauthInfo;
 
-    @SecretsValue(value = "dev/simplydemo/mysql", fullname = true)
-    private Map<String, String> mysqlInfo;
- 
+    @Value("dev/simplydemo/oauth.client_id")
+    private String clientId;
+
 }
+```
+
+<br>
+
+### Spring Proeprties 파일에서의 참조
+Spring Proeprties 설정 파일 내에서 secret name 의 속성을 참조 할 수 있습니다. 
+
+아래 예시는 `dev/simplydemo/apple` secret name 의 `username` 과 `password` 속성을 참조 하여 spring 에서 datasource 를 액세스하기 위한 구성 정보로 사용 되었습니다.  
+
+```yaml
+spring:
+ datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://localhost/jiniworld_test?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC&tinyInt1isBit=false"
+    username: "${dev/simplydemo/apple.username}"
+    password: "${dev/simplydemo/apple.password}"
 ```
 
 

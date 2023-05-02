@@ -4,8 +4,8 @@ import org.springframework.core.env.EnumerablePropertySource;
 
 public class SecretsManagerPropertySource extends EnumerablePropertySource<AwsSecretsManagerSupport> {
 
-    public SecretsManagerPropertySource(String name, AwsSecretsManagerSupport source) {
-        super(name, source);
+    public SecretsManagerPropertySource(String secretName, AwsSecretsManagerSupport source) {
+        super(secretName, source);
     }
 
     public String[] getPropertyNames() {
@@ -13,8 +13,7 @@ public class SecretsManagerPropertySource extends EnumerablePropertySource<AwsSe
     }
 
     public Object getProperty(String name) {
-        final String keyName = super.getName() + "." + name;
-        return source.getValue(keyName);
+        return source.getValue(super.getName(), name);
     }
 
 }

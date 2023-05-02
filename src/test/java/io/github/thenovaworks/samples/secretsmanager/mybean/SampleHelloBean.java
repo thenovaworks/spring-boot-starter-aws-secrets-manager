@@ -12,7 +12,7 @@ public class SampleHelloBean {
     @Value("${spring.cloud.aws.secrets-manager.region:ap-northeast-2}")
     private String awsRegion;
 
-    @Value("${username}")
+    @Value("${dev/simplydemo/apple.username}")
     private String username;
 
     public String getUsername() {
@@ -26,14 +26,14 @@ public class SampleHelloBean {
         return this.password;
     }
 
-    @Value("${client_id}")
+    @Value("${dev/simplydemo/oauth.client_id}")
     private String clientId;
 
     public String getClientId() {
         return this.clientId;
     }
 
-    @SecretsValue("dev/aurora/apple")
+    @SecretsValue("dev/simplydemo/apple")
     private Map<String, String> oauthInfo;
 
     public String getAwsRegion() {

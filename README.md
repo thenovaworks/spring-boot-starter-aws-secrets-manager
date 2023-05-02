@@ -126,7 +126,7 @@ public class SampleHelloBean {
 
 AWS Secrets Manager 값을 참조하는 기능은 [spring-cloud](https://spring.io/projects/spring-cloud) 프로젝트의 [spring-cloud-aws-starter-parameter-store](https://github.com/awspring/spring-cloud-aws/tree/main/spring-cloud-aws-starters/spring-cloud-aws-starter-secrets-manager) 모듈에서 이미 구현해 놓았습니다.  
 참고로, 해당 기능은 [PropertySource](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.external-config) 에 Parameter Value 값을 주입하고 @Value 어노테이션으로 액세스 합니다.  
-참고로, spring-cloud-aws-starter-parameter-store 모듈은 값을 침저할 때 JSON 노드를 탐색해야 하는 조금의 불편함이 있어서 Map 객체로 바로 바인딩 하도록 이 프로젝트를 구현하였습니다. 
+참고로, spring-cloud-aws-starter-parameter-store 모듈은 값을 참조할 때 JSON 노드를 탐색해야 하는 조금의 불편함이 있어서 Map 객체로 바로 바인딩 하도록 이 프로젝트를 구현하였습니다. 
 
 
 ### Reference Documentation

@@ -7,13 +7,11 @@ import java.util.List;
 @ConfigurationProperties(AwsSecretsManagerProperties.CONFIG_PREFIX)
 public final class AwsSecretsManagerProperties {
 
-    public static final String SECRET_MANAGER_IDENTITY = "secretsmanager";
-
     public static final String CONFIG_PREFIX = "spring.cloud.aws.secrets-manager";
 
     private String region = "ap-northeast-2";
     private ProviderType providerType = ProviderType.DEFAULT;
-    private String profile = "default";
+    private String profile;
 
     private List<String> packages;
 

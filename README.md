@@ -33,7 +33,7 @@ AWS Secrets Manager 를 액세스 하려면 Spring Boot 애플리케이션이 �
         <dependency>
           <groupId>io.github.thenovaworks</groupId>
           <artifactId>spring-boot-starter-aws-secrets-manager</artifactId>
-          <version>1.0.0</version>
+          <version>1.0.3</version>
         </dependency>
     </dependencies>
 ```
@@ -42,7 +42,7 @@ AWS Secrets Manager 를 액세스 하려면 Spring Boot 애플리케이션이 �
 
 ```
 dependencies {
-	implementation 'io.github.thenovaworks:spring-boot-starter-aws-secrets-manager:1.0.0'
+	implementation 'io.github.thenovaworks:spring-boot-starter-aws-secrets-manager:1.0.3'
 }
 ```
 
@@ -78,10 +78,10 @@ secretsmanager 를 식별 하기 위한 접두어로 'secretsmanager:' 로 시�
 
 #### For Local Test
 
-로컬 테스트 환경을 위해선 아래와 같이 "provider-type" 과 "profile" 속성을 설정 하고 AWS Secrets Manager 에 저장된 경로의 보안 값을 액세스 할 수 있는지 확인 할 수 있습니다.      
+로컬 테스트 환경을 위해선 아래와 같이 "provider-type" 과 "profile" 속성을 설정 하고 AWS Secrets Manager 에 저장된 경로의 보안 값을 액세스 할 수 있습니다.      
 AWS Profile 에 관련된 설정은 AWS [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) 가이드를 참고 합니다.
 
-- AWS Profile 을 참조하여 보안 문자열을 액세스 합니다. 
+- AWS Profile 을 참조 속성을 아래와 같이 정의 하여 Secrets Manager 를 액세스 할 수 있습니다. 
 ```
 spring:
   cloud:
@@ -92,10 +92,28 @@ spring:
   config:
     import: "secretsmanager:dev/simplydemo/apple"        
 ```
-profile 인증 방식은 아래와 같이 `AWS_PROFILE` 환경 변수를 설정 하여야 합니다.
+
+- `AWS_PROFILE` OS 환경 변수를 참조 하려면 아래와 같이 설정 할 수 있습니다. 
 ```
-$ export AWS_PROFILE=simplydemo
+$ export AWS_PROFILE=your-aws-profile
+$ java jar myapp.jar
 ```
+
+```
+spring:
+  cloud:
+    aws:
+      secrets-manager:
+        provider-type: profile
+  config:
+    import: "secretsmanager:dev/simplydemo/apple"   
+```
+
+- 위 설정에서 Java 애플리케이션 실행시 사용자 정의 환경 변수를 지정하여 profile 을 정의 할 수 있습니다.
+```
+java jar -DAWS_PROFILE=your-aws-profile myapp.jar
+```
+
 
 <br>
 
@@ -117,6 +135,8 @@ environment 인증 방식은 아래와 같이 `AWS_ACCESS_KEY_ID`, `AWS_SECRET_A
 $ export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 $ export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 $ export AWS_SESSION_TOKEN=AQoDYXdzEJr...<remainder of security token>
+
+$ java jar myapp.jar
 ```
 [guide_credentials_environment](https://docs.aws.amazon.com/ko_kr/sdk-for-php/v3/developer-guide/guide_credentials_environment.html) 참조 
 
@@ -156,7 +176,7 @@ Spring Proeprties 설정 파일 내에서 secret name 의 속성을 참조 할 �
 spring:
  datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: "jdbc:mysql://localhost/jiniworld_test?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC&tinyInt1isBit=false"
+    url: "jdbc:mysql://${dev/simplydemo/apple.host}:3306?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true&serverTimezone=UTC&tinyInt1isBit=false"
     username: "${dev/simplydemo/apple.username}"
     password: "${dev/simplydemo/apple.password}"
 ```

@@ -2,16 +2,12 @@ package io.github.thenovaworks.spring.aws.secretsmanager.autoconfigure;
 
 import io.github.thenovaworks.spring.aws.secretsmanager.AwsSecretsManagerProperties;
 import io.github.thenovaworks.spring.aws.secretsmanager.AwsSecretsManagerSupport;
-import io.github.thenovaworks.spring.aws.secretsmanager.ProviderType;
+import io.github.thenovaworks.spring.aws.secretsmanager.SecretsManagerClientFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClientBuilder;
 
@@ -22,28 +18,14 @@ public class AwsSecretsManagerAutoConfiguration {
 
     private final AwsSecretsManagerProperties properties;
 
-    private SecretsManagerClient buildClient() {
-        final SecretsManagerClientBuilder builder = SecretsManagerClient.builder();
-        if (properties.getRegion() != null) {
-            builder.region(Region.of(properties.getRegion()));
-        }
-        final ProviderType providerType = properties.getProviderType();
-        switch (providerType) {
-            case PROFILE -> builder.credentialsProvider(ProfileCredentialsProvider.create(properties.getProfile()));
-            case ENVIRONMENT -> builder.credentialsProvider(EnvironmentVariableCredentialsProvider.create());
-            default -> builder.credentialsProvider(DefaultCredentialsProvider.create());
-
-        }
-        return builder.build();
-    }
-
     public AwsSecretsManagerAutoConfiguration(AwsSecretsManagerProperties properties) {
         this.properties = properties;
     }
 
     @Bean
     AwsSecretsManagerSupport awsSecretsManagerSupport() {
-        return new AwsSecretsManagerSupport(buildClient());
+        final SecretsManagerClient client = SecretsManagerClientFactory.getInstance().buildClient(this.properties);
+        return new AwsSecretsManagerSupport(client);
     }
 
     @Bean

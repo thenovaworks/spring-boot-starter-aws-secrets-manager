@@ -13,6 +13,6 @@ public class AwsSecretsManagerValueResolver implements AutowireCandidateResolver
     }
 
     public Object getValue(final SecretsValue secretsValue) {
-        return support.getMap(secretsValue);
+        return support.getValue(secretsValue);
     }
 }

@@ -7,5 +7,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface SecretsValue {
     String value();
-    boolean fullname() default false;
+
+    String name() default "";
+
 }

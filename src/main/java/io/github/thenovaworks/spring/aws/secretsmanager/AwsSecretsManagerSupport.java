@@ -10,7 +10,6 @@ import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRespon
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class AwsSecretsManagerSupport {
@@ -29,68 +28,53 @@ public class AwsSecretsManagerSupport {
         this.objectMapper = new ObjectMapper();
     }
 
-    private Map<String, String> getSecrets(final String secretName, final boolean fullname) {
-        final Map<String, String> resultMap = new HashMap<>();
+    private Map<String, String> getSecrets(final String secretName) {
         final GetSecretValueRequest request = GetSecretValueRequest.builder().secretId(secretName).build();
         final GetSecretValueResponse response = client.getSecretValue(request);
         final String result = response.secretString();
 
         if (!StringUtils.hasText(result)) {
-            return resultMap;
+            return new HashMap<>();
         }
 
         try {
-            final Map<String, String> valueMap = objectMapper.readValue(result, typeRef);
-            if (!fullname) {
-                return valueMap;
-            }
-            for (Map.Entry<String, String> map : valueMap.entrySet()) {
-                final String key = secretName + "/" + map.getKey();
-                resultMap.put(key, map.getValue());
-            }
-            return resultMap;
+            return objectMapper.readValue(result, typeRef);
         } catch (JacksonException je) {
-            try {
-                if (fullname) {
-                    resultMap.put(secretName, result);
-                } else {
-                    String[] parts = response.name().split("/");
-                    final String key = parts[parts.length - 1];
-                    resultMap.put(key, result);
-                }
-                return resultMap;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            throw new RuntimeException(je.getMessage());
         }
     }
 
-    private Map<String, String> getValueMap(String secretName, boolean fullname, String cacheKey) {
-        if (CACHE.containsValue(cacheKey)) {
-            return CACHE.get(cacheKey);
+    private Map<String, String> getValueMap(String secretName) {
+        if (CACHE.containsValue(secretName)) {
+            return CACHE.get(secretName);
         }
         synchronized (this.CACHE) {
-            if (CACHE.get(cacheKey) != null) {
-                return CACHE.get(cacheKey);
+            if (CACHE.get(secretName) != null) {
+                return CACHE.get(secretName);
             }
-            final Map<String, String> value = getSecrets(secretName, fullname);
+            final Map<String, String> value = getSecrets(secretName);
             assert value != null;
-            CACHE.put(cacheKey, value);
+            CACHE.put(secretName, value);
             return value;
         }
     }
 
     public Map<String, String> getMap(final String secretName) {
-        boolean fullname = false;
-        final String cacheKey = secretName + "." + fullname;
-        return getValueMap(secretName, fullname, cacheKey);
+        return getValueMap(secretName);
     }
 
     public Map<String, String> getMap(final SecretsValue secretsValue) {
         final String secretName = secretsValue.value();
-        final boolean fullname = secretsValue.fullname();
-        final String cacheKey = secretName + "." + fullname;
-        return getValueMap(secretName, fullname, cacheKey);
+        return getValueMap(secretName);
+    }
+
+    public Object getValue(final SecretsValue secretsValue) {
+        final String secretName = secretsValue.value();
+        final String name = secretsValue.name();
+        if ("".equals(name)) {
+            return getValueMap(secretName);
+        }
+        return getValueMap(secretName).get(name);
     }
 
     public String getValue(final String secretName, final String name) {
@@ -109,4 +93,5 @@ public class AwsSecretsManagerSupport {
         }
         return map.keySet().toArray(new String[map.keySet().size()]);
     }
+
 }

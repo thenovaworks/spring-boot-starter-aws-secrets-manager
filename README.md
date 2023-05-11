@@ -195,6 +195,7 @@ AWS Secrets Manager 값을 참조하는 기능은 [spring-cloud](https://spring.
 
 ### Reference Documentation
 
+* [Demo Project](https://github.com/simplydemo/spring-boot-starter-aws-secrets-manager-demo)
 * [Spring Boot Reference Documentation](https://docs.spring.io/spring-boot/docs/3.0.x/reference/html/)
 * [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.0.x/maven-plugin/reference/htmlsingle/)
 
